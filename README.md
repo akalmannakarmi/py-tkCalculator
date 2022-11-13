@@ -29,8 +29,8 @@ A GUI from Tkinter where you can input your math in text in the input field or u
 * ^
 * /
 * \*
-* +
-* -
+* \+
+* \-
 
 # Problem and answer
 * 1-1 = 0 
