@@ -1,5 +1,8 @@
 from calculator import Calculator
+from tkinter import Tk
 import time
+
+root = Tk()
 
 tests = {
     "1-1":0,
@@ -30,4 +33,5 @@ def run():
 if __name__ == "__main__":
     startTime = time.time()
     run()
-    print(f"Time taken : {(time.time()-startTime)*1000}ms")
+    print(f"Time taken : {int((time.time()-startTime)*1000)}ms")
+    root.mainloop()
