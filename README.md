@@ -5,12 +5,32 @@ A GUI based calculator using python and tkinter.
 A GUI from Tkinter where you can input your math in text in the input field or use the buttons to add it to the input field When the equals button or pressed enter it returns the result
 
 # Operations
-Addition + Substraction - Multiplication * Division / Square ^ Modulus
-% = /100 Factorial ! Permutation P(n,r) Combination C(n,r) Trignometry Sin(30) Logerithem Log2(4)
+* Addition + 
+* Substraction - 
+* Multiplication * 
+* Division / 
+* Square ^ 
+* Modulus \ 
+* % = /100 
+* Factorial ! 
+* Permutation P(n,r) 
+* Combination C(n,r) 
+* Trignometry Sin(30) 
+* Logerithem Log2(4)
 
 # Order
-() Log Sin c(n,r) p(n,r) ! %
-^ / * +
+* () 
+* Log 
+* Sin 
+* c(n,r) 
+* p(n,r) 
+* ! 
+* %
+* ^
+*  /
+*  *
+*  +
+* -
 
 # Problem and answer
 * 1-1 = 0 
@@ -31,4 +51,5 @@ Addition + Substraction - Multiplication * Division / Square ^ Modulus
 
 # Work Division
 Akal >>> Tkinter GUI,Input Handeling 
+---
 Abhi >>> Calculation(order of operation and computation)
