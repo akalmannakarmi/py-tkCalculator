@@ -37,10 +37,10 @@ def remAll():
 
 def run():
     calc = Calculator()
-    print(data.get())
+    print(f"Sent: {data.get()}")
     result = calc.calculate(data.get())
     data.set(result)
-    print(result)
+    print(f"Got: {result}")
 
 
 dataFrame = Frame(root,padding=2)

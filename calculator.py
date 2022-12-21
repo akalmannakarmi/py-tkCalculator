@@ -6,6 +6,7 @@ class Calculator():
     
     def calculate(self,problem):
         result = self.separate(problem)
+        print(f"Problem: {result}")
         result = self.calc(result)
         return result
 
@@ -31,8 +32,6 @@ class Calculator():
                     num = num * 10 + int(letter)
             elif letter == ".":
                 num_decimal = 1
-            elif letter == "%":
-                num = num / 100
             elif letter == " ":
                 pass
             else:
@@ -40,7 +39,7 @@ class Calculator():
                     result.append(num)
                 if (letter == "+" or letter == "-" or letter == "/"
                         or letter == "^" or letter == "(" or letter == ")"
-                        or letter == "*"):
+                        or letter == "*"or letter=="!" or letter == "%"):
                     if word != "":
                         result.append(word)
                         word = ""
@@ -53,78 +52,113 @@ class Calculator():
             result.append(num)
         return result
 
-
+    def breakCalc(self,value=[]):
+        startI = 0
+        endI = -1
+        foundO = 0
+        foundC = 0
+        i=0
+        for letter in value:
+            if letter == '(':
+                if foundO==0:
+                    startI = i
+                foundO +=1
+            elif letter == ')':
+                foundC +=1
+                if foundO==foundC:
+                    endI = i
+                    print(endI)
+                    break
+            i+=1
+        if foundO>0:
+            value[startI] = self.calc(value[startI+1:endI])
+            for j in range(0,endI-startI):
+                value.pop(startI+1)
+        
+        return value
+                
+                
+        
+        
     def calc(self,result):
-        print(result)
+        if len(result)<=0:
+            return
+        i=0
+        length = len(result)
+        while i<length:
+            if result[i] == '(':
+                result = self.breakCalc(result)
+                i=0
+                length = len(result)
+            i+=1
+        
+        print(f"Calc:{result}")
+        
+        # !,\,^
         i = 0
-        while i < len(result):
-            if (result[i] == "/"):
-                result[i - 1] = result[i - 1] / result[i + 1]
-                result.pop(i + 1)
+        length = len(result)
+        while i < length:
+            if result[i]=='!':
+                result[i-1]= math.factorial(result[i-1])
                 result.pop(i)
-                print(result)
-                i = 0
-            i += 1
-        i = 0
-        while i < len(result):
-            if (result[i] == "*"):
-                result[i - 1] = result[i - 1] * result[i + 1]
-                result.pop(i + 1)
+            elif result[i] == '\\':
+                result[i-1]= result[i-1] % result[i+1]
                 result.pop(i)
-                print(result)
-                i = 0
-            i += 1
-        i = 0
-        while i < len(result):
-            if (result[i] == "+"):
-                result[i - 1] = result[i - 1] + result[i + 1]
-                result.pop(i + 1)
                 result.pop(i)
-                print(result)
-                i = 0
-            i += 1
-        i = 0
-        while i < len(result):
-            if (result[i] == "-"):
-                result[i - 1] = result[i - 1] - result[i + 1]
-                result.pop(i + 1)
+            elif result[i]=='^':
+                result[i-1]= pow(result[i-1],result[i+1])
                 result.pop(i)
-                print(result)
-                i = -1
-            i += 1
-        i = 0
-        while i < len(result):
-            if (result[i] == "MOD"):
-                result[i - 1] = result[i - 1] - int(
-                    result[i - 1] / result[i + 1]) * result[i + 1]
-                result.pop(i + 1)
                 result.pop(i)
-                print(result)
-                i = 0
-            i += 1
+            else:
+                i+=1
+            length = len(result)
+        
+        # %,*,/
         i = 0
-        while i < len(result):
-            if (result[i] == "sin"):
-                result[i + 2] = (result[i + 2] * math.pi) / 180
-                result[i] = math.sin(result[i + 2])
-                result.pop(i + 3)
-                result.pop(i + 2)
-                result.pop(i + 1)
-                print(result)
-                i = 0
-            i += 1
+        length = len(result)
+        while i < length:
+            if result[i]=='%':
+                result[i-1]/=100
+                result.pop(i)
+            elif result[i] == '*':
+                result[i-1]= result[i-1] * result[i+1]
+                result.pop(i)
+                result.pop(i)
+            elif i+1<length and type(result[i])!=str and type(result[i+1])!=str:
+                result[i]= result[i] * result[i+1]
+                result.pop(i+1)
+            elif result[i] == '/':
+                result[i-1]= result[i-1] / result[i+1]
+                result.pop(i)
+                result.pop(i)
+            else:
+                i+=1
+            length = len(result)
+        
+        # +,-
         i = 0
-        while i < len(result):
-            if (result[i] == "cos"):
-                result[i + 2] = (result[i + 2] * math.pi) / 180
-                result[i] = math.cos(result[i + 2])
-                result.pop(i + 3)
-                result.pop(i + 2)
-                result.pop(i + 1)
-                print(result)
-                i = 0
-            i += 1
-        i = 0
+        length = len(result)
+        while i < length:
+            if result[i]=='+':
+                if i-1<0 or type(result[i-1])==str:
+                    result[i]=+result[i+1]
+                    result.pop(i+1)
+                else:
+                    result[i-1]= result[i-1] + result[i+1]
+                    result.pop(i)
+                    result.pop(i)
+            elif result[i] == '-':
+                if i-1<0 or type(result[i-1])==str:
+                    result[i]=-result[i+1]
+                    result.pop(i+1)
+                else:
+                    result[i-1]= result[i-1] - result[i+1]
+                    result.pop(i)
+                    result.pop(i)
+            else:
+                i+=1
+            length = len(result)
+            
         while i < len(result):
             if (result[i] == "tan"):
                 result[i + 2] = (result[i + 2] * math.pi) / 180
@@ -132,7 +166,6 @@ class Calculator():
                 result.pop(i + 3)
                 result.pop(i + 2)
                 result.pop(i + 1)
-                print(result)
                 i = 0
             i += 1
         i = 0
@@ -144,16 +177,7 @@ class Calculator():
                 result.pop(i + 3)
                 result.pop(i + 2)
                 result.pop(i + 1)
-                print(result)
                 i = 0
             i += 1
-        i = 0
-        while i < len(result):
-            if (result[i] == "!"):
-                result[i] = math.factorial(result[i - 1])
-                result.pop(i - 1)
-                print(result)
-                i = 0
-            i += 1
-
+        print(f"result:{result}")
         return result[0]
